@@ -34,7 +34,10 @@ def fetch_tennis_matches():
 
         periods = event.get("periods", {})
         match_period = periods.get("num_0", {})
-        money_line = match_period.get("money_line", {})
+        money_line = match_period.get("money_line")
+
+        if not isinstance(money_line, dict):
+            continue  # sécurise l'accès
 
         odds1 = money_line.get("home")
         odds2 = money_line.get("away")

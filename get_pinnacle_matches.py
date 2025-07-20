@@ -12,6 +12,13 @@ HEADERS = {
 URL = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
 
 
+def normalize_name(name: str) -> str:
+    parts = name.strip().split()
+    if len(parts) == 1:
+        return name
+    return f"{parts[0][0]}. {' '.join(parts[1:])}"
+
+
 def fetch_tennis_matches():
     response = requests.get(URL, headers=HEADERS, params={"sport_id": 2})
     response.raise_for_status()
@@ -37,7 +44,7 @@ def fetch_tennis_matches():
         money_line = match_period.get("money_line")
 
         if not isinstance(money_line, dict):
-            continue  # sécurise l'accès
+            continue
 
         odds1 = money_line.get("home")
         odds2 = money_line.get("away")
@@ -46,8 +53,8 @@ def fetch_tennis_matches():
             continue
 
         matches.append({
-            "player1": player1.strip(),
-            "player2": player2.strip(),
+            "player1": normalize_name(player1),  # ✅ normalisé
+            "player2": normalize_name(player2),  # ✅ normalisé
             "odds1": float(odds1),
             "odds2": float(odds2),
             "surface": detect_surface(league_name),

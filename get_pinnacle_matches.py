@@ -2,7 +2,6 @@
 
 import requests
 import pandas as pd
-from datetime import datetime
 
 RAPIDAPI_KEY = "1df93a4239msh5776d5f2c3b3a91p147a3ejsnea4c93adaca3"
 HEADERS = {
@@ -18,33 +17,40 @@ def fetch_tennis_matches():
     response.raise_for_status()
     data = response.json()
 
+    events = data.get("events", [])
     matches = []
-    for event in data.get("leagues", []):
-        for match in event.get("events", []):
-            try:
-                if "doubles" in match["home"]['name'].lower():
-                    continue
-                if match['status'] != 'not_started':
-                    continue
 
-                home = match['home']['name']
-                away = match['away']['name']
+    for event in events:
+        league_name = event.get("league_name", "").lower()
+        if "atp" not in league_name:
+            continue  # ATP only
+        if "challenger" in league_name or "125" in league_name or "double" in league_name:
+            continue
 
-                odds = match.get("main", {}).get("odds", [])
-                if len(odds) != 2:
-                    continue
+        player1 = event.get("home")
+        player2 = event.get("away")
+        if not player1 or not player2:
+            continue
 
-                matches.append({
-                    "player1": home,
-                    "player2": away,
-                    "odds1": float(odds[0]['value']),
-                    "odds2": float(odds[1]['value']),
-                    "surface": detect_surface(match.get("league", {}).get("name", "")),
-                    "match_id": match['id'],
-                    "starts": match.get("start_time")
-                })
-            except Exception:
-                continue
+        periods = event.get("periods", {})
+        match_period = periods.get("num_0", {})
+        money_line = match_period.get("money_line", {})
+
+        odds1 = money_line.get("home")
+        odds2 = money_line.get("away")
+
+        if not odds1 or not odds2:
+            continue
+
+        matches.append({
+            "player1": player1.strip(),
+            "player2": player2.strip(),
+            "odds1": float(odds1),
+            "odds2": float(odds2),
+            "surface": detect_surface(league_name),
+            "match_id": event.get("id"),
+            "starts": event.get("start_time")
+        })
 
     return pd.DataFrame(matches)
 
@@ -57,4 +63,4 @@ def detect_surface(league_name: str) -> str:
         return "elo_hard"
     elif "grass" in name or "wimbledon" in name:
         return "elo_grass"
-    return "elo"  # default surface
+    return "elo"  # fallback

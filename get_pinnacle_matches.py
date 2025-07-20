@@ -34,7 +34,8 @@ def fetch_tennis_matches():
         player1 = event.get("home", "")
         player2 = event.get("away", "")
         tournament = event.get("league_name", "")
-        surface = "Hard"  # valeur par défaut (si besoin on raffinera)
+        surface = "Hard"  # par défaut, si besoin tu pourras le raffiner
+        start_time = event.get("starts", None)  # 🕒 récupère la date du match
 
         # Récupération des cotes
         periods = event.get("periods", {})
@@ -56,7 +57,8 @@ def fetch_tennis_matches():
             "odds1": odds1,
             "odds2": odds2,
             "surface": surface,
-            "tournament": tournament
+            "tournament": tournament,
+            "starts": start_time  # 🆕 évite le crash dans value_bets.py
         })
 
     return pd.DataFrame(matches)

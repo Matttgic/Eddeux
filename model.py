@@ -8,19 +8,22 @@ class EloModel:
         self.df['player'] = self.df['player'].apply(self.normalize_name)
 
     def normalize_name(self, name: str) -> str:
-        parts = name.strip().split(" ")
+        parts = name.strip().split()
         if len(parts) == 1:
             return name
-        return f"{parts[0][0]}. {' '.join(parts[1:])}"  # e.g. "Novak Djokovic" -> "N. Djokovic"
+        return f"{parts[0][0]}. {' '.join(parts[1:])}"
 
     def get_elo(self, player: str, surface: str) -> float:
-        player = self.normalize_name(player)
-        row = self.df[self.df['player'] == player]
+        player_norm = self.normalize_name(player)
+        row = self.df[self.df['player'] == player_norm]
+
         if row.empty:
+            print(f"❌ Pas trouvé dans Elo : {player_norm}")
             return None
+
         if surface in row.columns:
             return float(row[surface].values[0])
-        return float(row['elo'].values[0])  # fallback to general elo
+        return float(row['elo'].values[0])
 
     def get_probability(self, player1: str, player2: str, surface: str) -> float:
         elo1 = self.get_elo(player1, surface)

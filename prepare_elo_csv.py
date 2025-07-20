@@ -1,5 +1,3 @@
-# prepare_elo_csv.py
-
 import pandas as pd
 import os
 from glob import glob
@@ -30,15 +28,7 @@ raw = raw.rename(columns=lambda x: x.strip())
 raw = raw[raw['Surface'].isin(SURFACE_MAP.keys())]
 raw = raw.dropna(subset=['Winner', 'Loser'])
 
-# Format noms type "N. Djokovic"
-def normalize(name):
-    parts = name.strip().split(" ")
-    if len(parts) == 1:
-        return name
-    return f"{parts[0][0]}. {' '.join(parts[1:])}"
-
-raw['Winner'] = raw['Winner'].apply(normalize)
-raw['Loser'] = raw['Loser'].apply(normalize)
+# 👉 On garde les noms des joueurs tels quels (format complet)
 
 # Initialisation Elo
 base_elo = 1500

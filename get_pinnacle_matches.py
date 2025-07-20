@@ -7,7 +7,7 @@ PINNACLE_HEADERS = {
     "X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
 
-# ✅ Fonction pour convertir les noms en format "Nom P."
+# ✅ Convertit un nom complet ("Carlos Alcaraz") en "Alcaraz C."
 def normalize_name_excel_format(full_name: str) -> str:
     parts = full_name.strip().split()
     if len(parts) < 2:
@@ -16,7 +16,7 @@ def normalize_name_excel_format(full_name: str) -> str:
     last = " ".join(parts[1:])
     return f"{last} {first[0]}."
 
-# 📥 Fonction principale pour récupérer les matchs à venir
+# 📥 Récupère les matchs ATP à venir depuis l'API Pinnacle
 def fetch_tennis_matches():
     url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
     response = requests.get(url, headers=PINNACLE_HEADERS, params={"sport_id": 2})
@@ -34,17 +34,20 @@ def fetch_tennis_matches():
         player1 = event.get("home", "")
         player2 = event.get("away", "")
         tournament = event.get("league_name", "")
-        surface = "Hard"  # à affiner si besoin
+        surface = "Hard"  # valeur par défaut (si besoin on raffinera)
 
         # Récupération des cotes
         periods = event.get("periods", {})
         match_period = periods.get("num_0", {})
-        money_line = match_period.get("money_line", {})
+        money_line = match_period.get("money_line")
+
+        if not isinstance(money_line, dict):
+            continue
 
         odds1 = money_line.get("home")
         odds2 = money_line.get("away")
 
-        if not (odds1 and odds2):
+        if odds1 is None or odds2 is None:
             continue
 
         matches.append({

@@ -1,76 +1,47 @@
-# get_pinnacle_matches.py
-
 import requests
 import pandas as pd
 
-RAPIDAPI_KEY = "1df93a4239msh5776d5f2c3b3a91p147a3ejsnea4c93adaca3"
-HEADERS = {
-    "X-RapidAPI-Key": RAPIDAPI_KEY,
+PINNACLE_HEADERS = {
+    "X-RapidAPI-Key": "1df93a4239msh5776d5f2c3b3a91p147a3ejsnea4c93adaca3",
     "X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
 
-URL = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
-
-
-def normalize_name(name: str) -> str:
-    parts = name.strip().split()
-    if len(parts) == 1:
-        return name
-    return f"{parts[0][0]}. {' '.join(parts[1:])}"
-
-
 def fetch_tennis_matches():
-    response = requests.get(URL, headers=HEADERS, params={"sport_id": 2})
-    response.raise_for_status()
+    url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
+    response = requests.get(url, headers=PINNACLE_HEADERS, params={"sport_id": 2})
     data = response.json()
 
-    events = data.get("events", [])
     matches = []
 
-    for event in events:
-        league_name = event.get("league_name", "").lower()
-        if "atp" not in league_name:
-            continue  # ATP only
-        if "challenger" in league_name or "125" in league_name or "double" in league_name:
+    for event in data.get("events", []):
+        league = event.get("league_name", "").lower()
+        if "atp" not in league:
+            continue
+        if "challenger" in league or "doubles" in league or "125" in league:
             continue
 
-        player1 = event.get("home")
-        player2 = event.get("away")
-        if not player1 or not player2:
-            continue
+        player1 = event.get("home", "")
+        player2 = event.get("away", "")
+        tournament = event.get("league_name", "")
+        surface = "Hard"  # à ajuster plus tard si besoin
 
         periods = event.get("periods", {})
         match_period = periods.get("num_0", {})
-        money_line = match_period.get("money_line")
-
-        if not isinstance(money_line, dict):
-            continue
+        money_line = match_period.get("money_line", {})
 
         odds1 = money_line.get("home")
         odds2 = money_line.get("away")
 
-        if not odds1 or not odds2:
+        if not (odds1 and odds2):
             continue
 
         matches.append({
-            "player1": normalize_name(player1),  # ✅ normalisé
-            "player2": normalize_name(player2),  # ✅ normalisé
-            "odds1": float(odds1),
-            "odds2": float(odds2),
-            "surface": detect_surface(league_name),
-            "match_id": event.get("id"),
-            "starts": event.get("start_time")
+            "player1": player1,
+            "player2": player2,
+            "odds1": odds1,
+            "odds2": odds2,
+            "surface": surface,
+            "tournament": tournament
         })
 
     return pd.DataFrame(matches)
-
-
-def detect_surface(league_name: str) -> str:
-    name = league_name.lower()
-    if any(surface in name for surface in ["clay", "roland"]):
-        return "elo_clay"
-    elif any(surface in name for surface in ["hard", "australian", "us open"]):
-        return "elo_hard"
-    elif "grass" in name or "wimbledon" in name:
-        return "elo_grass"
-    return "elo"  # fallback

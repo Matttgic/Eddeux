@@ -28,7 +28,7 @@ jobs:
         run: python update_2025_file.py
 
       - name: Recalculer elo_probs.csv
-        run: python generate_elo_probs.py
+        run: python prepare_elo_csv.py 
 
       - name: Commit & Push
         run: |

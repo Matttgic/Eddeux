@@ -1,78 +1,98 @@
-# app.py
-
 import streamlit as st
-from value_bets import compute_value_bets
 import pandas as pd
-from datetime import datetime
 import os
-import requests
+from datetime import datetime
+from value_bets import compute_value_bets
 
 st.set_page_config(page_title="Tennis Value Bets", layout="wide")
 st.title("🎾 Value Bets Tennis - Elo vs Cotes Pinnacle")
 
-# 📅 Sidebar : bouton de mise à jour manuelle du fichier 2025.xlsx
-st.sidebar.header("📅 Données")
-
-def update_2025_file():
-    url = "http://www.tennis-data.co.uk/2025/2025.xlsx"
-    dest_folder = "Données"
-    dest_file = os.path.join(dest_folder, "2025.xlsx")
-    os.makedirs(dest_folder, exist_ok=True)
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        with open(dest_file, "wb") as f:
-            f.write(response.content)
-        return True, "✅ Fichier 2025.xlsx mis à jour avec succès."
-    except Exception as e:
-        return False, f"❌ Erreur : {e}"
-
-if st.sidebar.button("🔄 Mettre à jour le fichier 2025.xlsx"):
-    success, msg = update_2025_file()
-    if success:
-        st.sidebar.success(msg)
-    else:
-        st.sidebar.error(msg)
-
-# 📊 Slider pour seuil de value bet (%)
-seuil = st.slider(
-    "🔧 Seuil minimum de value (%)",
-    min_value=0.0,
-    max_value=10.0,
-    value=5.0,
-    step=0.1,
-    help="Affiche les matchs dont la value est supérieure à ce pourcentage"
-) / 100
-
-# Chargement des Elo
+# Fichier Elo et log
 elo_file = "elo_probs.csv"
+log_file = "historique_value_bets.csv"
 
-with st.spinner("Calcul des value bets en cours..."):
+# Tabs pour les deux stratégies
+tab1, tab2 = st.tabs(["📊 Stratégie A - Seuil fixe", "📈 Stratégie B - Top %"])
+
+with tab1:
+    seuil = st.slider("🔧 Seuil minimum de value (%)", 0.0, 10.0, 5.0, 0.1) / 100
     df = compute_value_bets(elo_file, min_value_threshold=seuil)
 
-if df.empty:
-    st.warning(f"Aucun value bet détecté avec un seuil de {seuil*100:.1f}%.")
-
-    # Mode debug : tout afficher si aucun bet filtré
-    st.subheader("🔍 Mode debug : analyse sans seuil")
-    df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
-
-    if not df_debug.empty:
-        df_debug = df_debug.sort_values(by="value", ascending=False)
-        st.dataframe(df_debug, use_container_width=True)
+    if df.empty:
+        st.warning("Aucun value bet détecté avec ce seuil.")
+        st.subheader("🔍 Mode debug : tous les matchs analysés")
+        df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
+        if not df_debug.empty:
+            df_debug = df_debug.sort_values(by="value", ascending=False)
+            st.dataframe(df_debug, use_container_width=True)
+        else:
+            st.info("Aucun match analysé (problème API ?)")
     else:
-        st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
-else:
-    st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}% :")
-    df = df.sort_values(by="value", ascending=False)
-    st.dataframe(df, use_container_width=True)
+        st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}%")
+        st.dataframe(df, use_container_width=True)
 
-    # Bouton de téléchargement CSV
-    csv = df.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label="📅 Télécharger les bets en CSV",
-        data=csv,
-        file_name=f"value_bets_{datetime.now().date()}.csv",
-        mime="text/csv"
-    )
- 
+        # ROI global et par tranches
+        df['roi'] = (df['cote_pinnacle'] * (df['prob_elo'] / 100)) - 1
+        roi_total = df['roi'].mean() * 100
+        st.metric("📈 ROI moyen global", f"{roi_total:.2f}%")
+
+        # ROI par tranches
+        df['tranche'] = pd.cut(df['value'], bins=[0,2,4,6,8,10,100], labels=["0-2%","2-4%","4-6%","6-8%","8-10%",">10%"])
+        grouped = df.groupby("tranche")["roi"].mean().multiply(100).reset_index()
+        st.dataframe(grouped.rename(columns={"roi": "ROI moyen (%)"}), use_container_width=True)
+
+        # Log historique
+        df_log = df.copy()
+        df_log["log_date"] = datetime.now().strftime("%Y-%m-%d")
+        if not os.path.exists(log_file):
+            df_log.to_csv(log_file, index=False)
+        else:
+            df_log.to_csv(log_file, mode="a", header=False, index=False)
+
+        csv = df.to_csv(index=False).encode("utf-8")
+        st.download_button("📥 Télécharger les bets (CSV)", csv, file_name=f"value_bets_{datetime.now().date()}.csv")
+
+with tab2:
+    top_percent = st.slider("🎯 Top % des meilleurs bets", 1, 100, 10)
+    df_all = compute_value_bets(elo_file, min_value_threshold=0.0)
+
+    if df_all.empty:
+        st.warning("Aucun match analysé.")
+    else:
+        df_all = df_all.sort_values(by="value", ascending=False)
+        cutoff = max(1, int(len(df_all) * top_percent / 100))
+        df_top = df_all.head(cutoff)
+
+        st.success(f"{cutoff} bets sélectionnés (Top {top_percent}%)")
+        st.dataframe(df_top, use_container_width=True)
+
+        df_top['roi'] = (df_top['cote_pinnacle'] * (df_top['prob_elo'] / 100)) - 1
+        roi_total = df_top['roi'].mean() * 100
+        st.metric("📈 ROI moyen Top %", f"{roi_total:.2f}%")
+
+        # ROI par tranches
+        df_top['tranche'] = pd.cut(df_top['value'], bins=[0,2,4,6,8,10,100], labels=["0-2%","2-4%","4-6%","6-8%","8-10%",">10%"])
+        grouped = df_top.groupby("tranche")["roi"].mean().multiply(100).reset_index()
+        st.dataframe(grouped.rename(columns={"roi": "ROI moyen (%)"}), use_container_width=True)
+
+        df_log = df_top.copy()
+        df_log["log_date"] = datetime.now().strftime("%Y-%m-%d")
+        if not os.path.exists(log_file):
+            df_log.to_csv(log_file, index=False)
+        else:
+            df_log.to_csv(log_file, mode="a", header=False, index=False)
+
+        csv = df_top.to_csv(index=False).encode("utf-8")
+        st.download_button("📥 Télécharger les bets (CSV)", csv, file_name=f"top_{top_percent}_value_bets_{datetime.now().date()}.csv")
+
+# Historique en sidebar
+st.sidebar.header("📜 Historique des Value Bets")
+if os.path.exists(log_file):
+    if st.sidebar.button("📂 Voir l'historique complet"):
+        df_hist = pd.read_csv(log_file)
+        st.subheader("📜 Historique complet")
+        st.dataframe(df_hist, use_container_width=True)
+    with open(log_file, "rb") as f:
+        st.sidebar.download_button("📥 Télécharger l'historique", f, file_name="historique_value_bets.csv")
+else:
+    st.sidebar.info("Aucun historique disponible.")

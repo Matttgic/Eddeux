@@ -1,13 +1,18 @@
 name: Download 2025.xlsx daily
 
+# ✅ Permet à l'action d'écrire (push) dans le dépôt
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '00 9 * * *'  # 11h heure française (UTC+2)
-  workflow_dispatch:
+  workflow_dispatch:       # Permet aussi de déclencher manuellement
 
 jobs:
   download:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -28,5 +33,5 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add Data/2025.xlsx
-          git commit -m "📥 Mise à jour auto 2025.xlsx dans Data/"
+          git commit -m "📥 Mise à jour auto 2025.xlsx dans Data/" || echo "Pas de changement à valider"
           git push 

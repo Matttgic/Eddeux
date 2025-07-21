@@ -2,8 +2,8 @@ name: Download 2025.xlsx daily
 
 on:
   schedule:
-    - cron: '00 9 * * *'  # 09h UTC = 11h heure française
-  workflow_dispatch:  # permet aussi de le déclencher manuellement
+    - cron: '00 9 * * *'  # 11h heure française (UTC+2)
+  workflow_dispatch:
 
 jobs:
   download:
@@ -17,16 +17,16 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install requests
         run: pip install requests
 
-      - name: Run download script
+      - name: Run update script
         run: python update_2025_file.py
 
-      - name: Commit updated 2025.xlsx
+      - name: Commit updated file
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add tennis_data/2025.xlsx
-          git commit -m "📥 Daily update 2025.xlsx"
-          git push
+          git add Data/2025.xlsx
+          git commit -m "📥 Mise à jour auto 2025.xlsx dans Data/"
+          git push 

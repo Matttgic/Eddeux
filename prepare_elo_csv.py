@@ -8,7 +8,7 @@ SURFACE_MAP = {
     "Grass": "elo_grass"
 }
 
-DATA_DIR = "Data"
+DATA_DIR = "Données"
 OUTPUT_FILE = "elo_probs.csv"
 
 # Lecture et fusion de tous les fichiers tennis-data

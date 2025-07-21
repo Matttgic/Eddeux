@@ -40,6 +40,11 @@ if not os.path.exists(elo_file):
     st.error(f"❌ Fichier {elo_file} introuvable. Lancez d'abord 'python prepare_elo_csv.py'")
     st.stop()
 
+# Cache des données pour éviter recharger à chaque slider
+@st.cache_data(ttl=300)
+def get_all_matches():
+    return compute_value_bets(elo_file, min_value_threshold=0.0)
+
 # 📊 Onglets stratégies
 tab1, tab2 = st.tabs(["🎯 Stratégie A: Seuil fixe", "🏆 Stratégie B: Top %"])
 
@@ -56,27 +61,24 @@ with tab1:
         help="Affiche les matchs dont la value est supérieure à ce pourcentage"
     ) / 100
 
-    with st.spinner("Calcul des value bets en cours..."):
-        try:
-            df = compute_value_bets(elo_file, min_value_threshold=seuil)
-        except Exception as e:
-            st.error(f"❌ Erreur lors du calcul : {e}")
-            df = pd.DataFrame()
+    try:
+        df_all = get_all_matches()
+        df = df_all[df_all['value'] >= seuil*100] if not df_all.empty else pd.DataFrame()
+    except Exception as e:
+        st.error(f"❌ Erreur lors du calcul : {e}")
+        df = pd.DataFrame()
+        df_all = pd.DataFrame()
 
     if df.empty:
         st.warning(f"Aucun value bet détecté avec un seuil de {seuil*100:.1f}%.")
         
         # Mode debug
         st.subheader("🔍 Mode debug : analyse sans seuil")
-        try:
-            df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
-            if not df_debug.empty:
-                df_debug = df_debug.sort_values(by="value", ascending=False)
-                st.dataframe(df_debug, use_container_width=True)
-            else:
-                st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
-        except Exception as e:
-            st.error(f"❌ Erreur mode debug : {e}")
+        if not df_all.empty:
+            df_debug = df_all.sort_values(by="value", ascending=False)
+            st.dataframe(df_debug, use_container_width=True)
+        else:
+            st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
     else:
         st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}% :")
         df = df.sort_values(by="value", ascending=False)
@@ -104,12 +106,11 @@ with tab2:
         help="Garde seulement les X% meilleurs value bets"
     )
 
-    with st.spinner("Calcul des top value bets..."):
-        try:
-            df_all = compute_value_bets(elo_file, min_value_threshold=0.0)
-        except Exception as e:
-            st.error(f"❌ Erreur lors du calcul : {e}")
-            df_all = pd.DataFrame()
+    try:
+        df_all = get_all_matches()
+    except Exception as e:
+        st.error(f"❌ Erreur lors du calcul : {e}")
+        df_all = pd.DataFrame()
 
     if df_all.empty:
         st.warning("Aucun match analysé.")

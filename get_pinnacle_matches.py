@@ -5,7 +5,7 @@ import pandas as pd
 
 # 🔧 Clés API Pinnacle
 PINNACLE_HEADERS = {
-    "X-RapidAPI-Key": "1df93a4239msh5776d5f2c3b3a91p147a3ejsnea4c93adaca3",
+    "X-RapidAPI-Key": "e1e76b8e3emsh2445ffb97db0128p158afdjsnb3175ce8d916",
     "X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
 

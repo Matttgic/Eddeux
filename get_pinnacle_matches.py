@@ -1,3 +1,5 @@
+# get_pinnacle_matches.py
+
 import requests
 import pandas as pd
 
@@ -19,37 +21,54 @@ def normalize_name_excel_format(full_name: str) -> str:
 # 📥 Récupère les matchs ATP à venir depuis l'API Pinnacle
 def fetch_tennis_matches():
     url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
-    response = requests.get(url, headers=PINNACLE_HEADERS, params={"sport_id": 2})
-    data = response.json()
+    params = {"sport_id": 2}  # Tennis uniquement
+    
+    try:
+        response = requests.get(url, headers=PINNACLE_HEADERS, params=params, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"❌ Erreur API : {e}")
+        return pd.DataFrame()
 
     matches = []
 
-    for event in data.get("events", []):
+    # ✅ Structure correcte : events (pas data)
+    events = data.get("events", [])
+    print(f"🔍 {len(events)} événements trouvés")
+
+    for event in events:
         league = event.get("league_name", "").lower()
-        if "atp" not in league:
+        
+        # Filtrage ATP/WTA seulement
+        if not ("atp" in league or "wta" in league):
             continue
-        if "challenger" in league or "doubles" in league or "125" in league:
+        if "challenger" in league or "125" in league or "double" in league:
             continue
 
         player1 = event.get("home", "")
         player2 = event.get("away", "")
         tournament = event.get("league_name", "")
-        surface = "Hard"  # par défaut, si besoin tu pourras le raffiner
-        start_time = event.get("starts", None)  # 🕒 récupère la date du match
+        surface = "Hard"  # par défaut
+        start_time = event.get("starts", None)
 
-        # Récupération des cotes
+        # ✅ STRUCTURE PINNACLE SPÉCIFIQUE
         periods = event.get("periods", {})
         match_period = periods.get("num_0", {})
-        money_line = match_period.get("money_line")
+        money_line = match_period.get("money_line", {})
 
-        if not isinstance(money_line, dict):
+        if not money_line:
+            print(f"⚠️ Pas de money_line pour {player1} vs {player2}")
             continue
 
         odds1 = money_line.get("home")
         odds2 = money_line.get("away")
 
         if odds1 is None or odds2 is None:
+            print(f"⚠️ Cotes manquantes : {player1} vs {player2}")
             continue
+
+        print(f"✅ Match trouvé : {player1} vs {player2} - Cotes: {odds1}/{odds2}")
 
         matches.append({
             "player1": normalize_name_excel_format(player1),
@@ -58,7 +77,13 @@ def fetch_tennis_matches():
             "odds2": odds2,
             "surface": surface,
             "tournament": tournament,
-            "starts": start_time  # 🆕 évite le crash dans value_bets.py
+            "starts": start_time
         })
 
+    print(f"🎾 {len(matches)} matchs ATP/WTA récupérés")
     return pd.DataFrame(matches)
+
+# Test direct
+if __name__ == "__main__":
+    df = fetch_tennis_matches()
+    print(df) 

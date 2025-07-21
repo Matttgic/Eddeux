@@ -1,12 +1,12 @@
 name: Download 2025.xlsx daily
 
 permissions:
-  contents: write  # ✅ Autorise les push
+  contents: write
 
 on:
   schedule:
-    - cron: '00 9 * * *'  # ⏰ Tous les jours à 11h (heure française, UTC+2)
-  workflow_dispatch:       # 🔘 Déclenchement manuel possible
+    - cron: '00 9 * * *'  # ⏰ Tous les jours à 11h heure française (UTC+2)
+  workflow_dispatch:       # 🔘 Lancement manuel autorisé
 
 jobs:
   download:
@@ -23,7 +23,7 @@ jobs:
 
       - name: 📦 Install Python dependencies
         run: |
-          pip install requests xlrd
+          pip install requests pandas xlrd openpyxl
 
       - name: 🔄 Run update script (2025.xlsx)
         run: python update_2025_file.py
@@ -37,4 +37,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add Données/2025.xlsx elo_probs.csv
           git commit -m "📈 Mise à jour auto : 2025.xlsx + elo_probs.csv" || echo "Pas de changement à valider"
-          git push w
+          git push 

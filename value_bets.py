@@ -1,54 +1,49 @@
-# value_bets.py
-
 import pandas as pd
-from model import EloModel
 from get_pinnacle_matches import fetch_tennis_matches
+from model import EloModel
 
-
-def compute_implied_prob(odds: float) -> float:
-    return 1 / odds if odds and odds > 0 else 0
-
-
-def compute_value_bets(elo_csv_path: str, min_value_threshold: float = 0.05) -> pd.DataFrame:
-    model = EloModel(elo_csv_path)
+def compute_value_bets(elo_file: str, min_value_threshold: float = 0.05) -> pd.DataFrame:
+    model = EloModel(elo_file)
     matches_df = fetch_tennis_matches()
 
-    value_bets = []
-
+    rows = []
     for _, row in matches_df.iterrows():
-        player1 = row["player1"]
-        player2 = row["player2"]
+        p1 = row["player1"]
+        p2 = row["player2"]
         surface = row["surface"]
 
-        proba = model.get_probability(player1, player2, surface)
-        if proba is None:
+        elo1 = model.get_elo(p1, surface)
+        elo2 = model.get_elo(p2, surface)
+
+        if elo1 is None or elo2 is None:
             continue
 
-        implied1 = compute_implied_prob(row["odds1"])
-        implied2 = compute_implied_prob(row["odds2"])
+        # Probabilité selon Elo
+        p_elo = 1 / (1 + 10 ** ((elo2 - elo1) / 400))
 
-        value1 = proba - implied1
-        value2 = (1 - proba) - implied2
+        # Probabilité implicite selon les cotes Pinnacle
+        odds1 = row["odds1"]
+        odds2 = row["odds2"]
+        p_cotes = 1 / odds1
+        margin = 1 / odds1 + 1 / odds2
+        p_cotes = p_cotes / margin  # retrait de la marge
 
-        if value1 >= min_value_threshold:
-            value_bets.append({
-                "match": f"{player1} vs {player2}",
-                "player": player1,
-                "cote": row["odds1"],
-                "proba": round(proba, 3),
-                "value": round(value1, 3),
+        value = p_elo - p_cotes
+
+        if value >= min_value_threshold:
+            rows.append({
+                "match": f"{p1} vs {p2}",
+                "player1": p1,
+                "player2": p2,
                 "surface": surface,
-                "start_time": row["starts"]
-            })
-        elif value2 >= min_value_threshold:
-            value_bets.append({
-                "match": f"{player1} vs {player2}",
-                "player": player2,
-                "cote": row["odds2"],
-                "proba": round(1 - proba, 3),
-                "value": round(value2, 3),
-                "surface": surface,
-                "start_time": row["starts"]
+                "elo1": round(elo1),
+                "elo2": round(elo2),
+                "prob_elo": round(p_elo * 100, 1),
+                "prob_cotes": round(p_cotes * 100, 1),
+                "value": round(value * 100, 1),
+                "cote_pinnacle": odds1,
+                "tournament": row.get("tournament", ""),
+                "start_time": row.get("starts", "")
             })
 
-    return pd.DataFrame(value_bets)
+    return pd.DataFrame(rows)

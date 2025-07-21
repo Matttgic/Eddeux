@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from value_bets import compute_value_bets
 import pandas as pd
@@ -34,45 +32,84 @@ if st.sidebar.button("🔄 Mettre à jour le fichier 2025.xlsx"):
     else:
         st.sidebar.error(msg)
 
-# 📊 Slider pour seuil de value bet (%)
-seuil = st.slider(
-    "🔧 Seuil minimum de value (%)",
-    min_value=0.0,
-    max_value=10.0,
-    value=5.0,
-    step=0.1,
-    help="Affiche les matchs dont la value est supérieure à ce pourcentage"
-) / 100
+st.sidebar.markdown("---")
+st.sidebar.subheader("📜 Historique des Value Bets")
+log_file = "historique_value_bets.csv"
+if os.path.exists(log_file):
+    if st.sidebar.button("📂 Voir l'historique complet"):
+        df_hist = pd.read_csv(log_file)
+        st.subheader("📜 Historique complet")
+        st.dataframe(df_hist, use_container_width=True)
 
-# Chargement des Elo
-elo_file = "elo_probs.csv"
-
-with st.spinner("Calcul des value bets en cours..."):
-    df = compute_value_bets(elo_file, min_value_threshold=seuil)
-
-if df.empty:
-    st.warning(f"Aucun value bet détecté avec un seuil de {seuil*100:.1f}%.")
-
-    # Mode debug : tout afficher si aucun bet filtré
-    st.subheader("🔍 Mode debug : analyse sans seuil")
-    df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
-
-    if not df_debug.empty:
-        df_debug = df_debug.sort_values(by="value", ascending=False)
-        st.dataframe(df_debug, use_container_width=True)
-    else:
-        st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
+    with open(log_file, "rb") as f:
+        st.sidebar.download_button(
+            label="📥 Télécharger l'historique",
+            data=f,
+            file_name="historique_value_bets.csv",
+            mime="text/csv"
+        )
 else:
-    st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}% :")
-    df = df.sort_values(by="value", ascending=False)
-    st.dataframe(df, use_container_width=True)
+    st.sidebar.info("Aucun historique encore généré.")
 
-    # Bouton de téléchargement CSV
-    csv = df.to_csv(index=False).encode("utf-8")
-    st.download_button(
-        label="📅 Télécharger les bets en CSV",
-        data=csv,
-        file_name=f"value_bets_{datetime.now().date()}.csv",
-        mime="text/csv"
-    )
+# Tabs : deux approches
+onglet_a, onglet_b = st.tabs([
+    "📈 Méthode A : Value > Seuil",
+    "🏆 Méthode B : Top % Value Bets"
+])
+
+with onglet_a:
+    seuil = st.slider("🔧 Seuil minimum de value (%)", 0.0, 10.0, 5.0, 0.1) / 100
+    with st.spinner("Calcul des value bets en cours..."):
+        df = compute_value_bets("elo_probs.csv", min_value_threshold=seuil)
+
+    if df.empty:
+        st.warning(f"Aucun value bet détecté avec un seuil de {seuil*100:.1f}%.")
+        st.subheader("🔍 Mode debug : analyse sans seuil")
+        df_debug = compute_value_bets("elo_probs.csv", min_value_threshold=0.0)
+        if not df_debug.empty:
+            df_debug = df_debug.sort_values(by="value", ascending=False)
+            st.dataframe(df_debug, use_container_width=True)
+        else:
+            st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
+    else:
+        st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}% :")
+        df = df.sort_values(by="value", ascending=False)
+        st.dataframe(df, use_container_width=True)
+
+        csv = df.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="📥 Télécharger les bets en CSV",
+            data=csv,
+            file_name=f"value_bets_{datetime.now().date()}.csv",
+            mime="text/csv"
+        )
+
+        # 🔐 Historique auto
+        df["log_date"] = datetime.now().strftime("%Y-%m-%d")
+        if not os.path.exists(log_file):
+            df.to_csv(log_file, index=False, mode="w")
+        else:
+            df.to_csv(log_file, mode="a", index=False, header=False)
+
+with onglet_b:
+    top_pct = st.slider("🏆 Top % des meilleurs value bets", 1, 100, 10)
+    df_all = compute_value_bets("elo_probs.csv", min_value_threshold=0.0)
+
+    if df_all.empty:
+        st.warning("Aucun match analysé.")
+    else:
+        df_all = df_all.sort_values(by="value", ascending=False)
+        top_n = int(len(df_all) * top_pct / 100)
+        df_top = df_all.head(top_n)
+
+        st.success(f"{top_n} value bet(s) affiché(s) parmi le Top {top_pct}% triés par value.")
+        st.dataframe(df_top, use_container_width=True)
+
+        csv_top = df_top.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="📥 Télécharger les bets (Top %)",
+            data=csv_top,
+            file_name=f"top_value_bets_{datetime.now().date()}.csv",
+            mime="text/csv"
+        )
  

@@ -2,42 +2,49 @@ import pandas as pd
 import os
 from glob import glob
 
+# 🌍 Dossier contenant les fichiers Excel tennis-data
+DATA_DIR = "Données"
+OUTPUT_FILE = "elo_probs.csv"
+
+# 🟩 Conversion surface → colonne Elo
 SURFACE_MAP = {
     "Hard": "elo_hard",
     "Clay": "elo_clay",
     "Grass": "elo_grass"
 }
 
-DATA_DIR = "Données"
-OUTPUT_FILE = "elo_probs.csv"
-
-# Lecture et fusion de tous les fichiers tennis-data
+# 📥 Lecture et fusion de tous les fichiers tennis-data
 files = glob(os.path.join(DATA_DIR, "*.xls*"))
+print(f"🔎 {len(files)} fichiers trouvés dans {DATA_DIR}/")
+
 df_list = []
 for file in files:
     try:
         df = pd.read_excel(file)
+        print(f"✅ Chargé : {os.path.basename(file)} ({len(df)} lignes)")
         df_list.append(df)
-    except Exception:
-        continue
+    except Exception as e:
+        print(f"❌ Erreur chargement {file} : {e}")
+
+if not df_list:
+    print("❌ Aucun fichier Excel n’a pu être lu. Arrêt.")
+    exit()
 
 raw = pd.concat(df_list, ignore_index=True)
+print(f"📊 Total fusionné : {raw.shape[0]} lignes")
 
-# Normalisation colonnes
+# 🔧 Nettoyage et filtrage
 raw = raw.rename(columns=lambda x: x.strip())
 raw = raw[raw['Surface'].isin(SURFACE_MAP.keys())]
 raw = raw.dropna(subset=['Winner', 'Loser'])
 
-# 👉 On garde les noms des joueurs tels quels (format complet)
-
-# Initialisation Elo
+# 🛠️ Initialisation Elo
 base_elo = 1500
 elos = {}
 
-# Mise à jour Elo par surface
+# 🔁 Mise à jour Elo surface par surface
 for surface_label, colname in SURFACE_MAP.items():
     elos[colname] = {}
-
     data = raw[raw['Surface'] == surface_label].sort_values("Date")
 
     for _, row in data.iterrows():
@@ -54,7 +61,7 @@ for surface_label, colname in SURFACE_MAP.items():
         elos[colname][w] = ew_new
         elos[colname][l] = el_new
 
-# Agrégation dans un seul DataFrame
+# 🧱 Construction du DataFrame final
 players = set()
 for d in elos.values():
     players.update(d.keys())
@@ -69,4 +76,6 @@ for player in players:
 
 final_df = pd.DataFrame(rows)
 final_df.to_csv(OUTPUT_FILE, index=False)
-print(f"✅ Fichier {OUTPUT_FILE} généré avec {len(final_df)} joueurs.")
+
+# 📈 Résumé
+print(f"✅ Fichier {OUTPUT_FILE} généré avec {len(final_df)} joueurs uniques.") 

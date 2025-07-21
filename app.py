@@ -15,7 +15,7 @@ st.sidebar.header("📅 Données")
 
 def update_2025_file():
     url = "http://www.tennis-data.co.uk/2025/2025.xlsx"
-    dest_folder = "Data"
+    dest_folder = "Données"
     dest_file = os.path.join(dest_folder, "2025.xlsx")
     os.makedirs(dest_folder, exist_ok=True)
     try:

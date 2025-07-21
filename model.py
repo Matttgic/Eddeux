@@ -4,10 +4,18 @@ import pandas as pd
 
 class EloModel:
     def __init__(self, filepath: str):
-        self.df = pd.read_csv(filepath)
-        self.df['player'] = self.df['player'].apply(self.normalize_name)
+        try:
+            self.df = pd.read_csv(filepath)
+            self.df['player'] = self.df['player'].apply(self.normalize_name)
+            print(f"✅ {len(self.df)} joueurs chargés depuis {filepath}")
+        except FileNotFoundError:
+            raise FileNotFoundError(f"❌ Fichier {filepath} introuvable")
+        except Exception as e:
+            raise Exception(f"❌ Erreur lecture CSV : {e}")
 
     def normalize_name(self, name: str) -> str:
+        if pd.isna(name):
+            return ""
         parts = name.strip().split()
         if len(parts) == 1:
             return name
@@ -18,12 +26,24 @@ class EloModel:
         row = self.df[self.df['player'] == player_norm]
 
         if row.empty:
-            print(f"❌ Pas trouvé dans Elo : {player_norm}")
+            print(f"❌ Joueur non trouvé : '{player_norm}'")
             return None
 
-        if surface in row.columns:
-            return float(row[surface].values[0])
-        return float(row['elo'].values[0])
+        # Mapping surface vers colonne
+        surface_map = {
+            "Hard": "elo_hard",
+            "Clay": "elo_clay", 
+            "Grass": "elo_grass"
+        }
+        
+        col = surface_map.get(surface, "elo")
+        
+        if col in self.df.columns:
+            return float(row[col].values[0])
+        elif "elo" in self.df.columns:
+            return float(row["elo"].values[0])
+        else:
+            raise ValueError(f"❌ Colonnes Elo manquantes dans le CSV")
 
     def get_probability(self, player1: str, player2: str, surface: str) -> float:
         elo1 = self.get_elo(player1, surface)
@@ -35,3 +55,12 @@ class EloModel:
         diff = elo1 - elo2
         prob = 1 / (1 + 10 ** (-diff / 400))
         return prob
+
+# Test
+if __name__ == "__main__":
+    try:
+        model = EloModel("elo_probs.csv")
+        print(model.df.columns.tolist())
+        print(model.df.head())
+    except Exception as e:
+        print(f"Erreur : {e}")

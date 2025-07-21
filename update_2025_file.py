@@ -4,7 +4,7 @@ import requests
 import os
 
 url = "http://www.tennis-data.co.uk/2025/2025.xlsx"
-dest_folder = "Data"
+dest_folder = "Données"
 dest_file = os.path.join(dest_folder, "2025.xlsx")
 
 os.makedirs(dest_folder, exist_ok=True)
@@ -14,6 +14,6 @@ try:
     response.raise_for_status()
     with open(dest_file, "wb") as f:
         f.write(response.content)
-    print("✅ Fichier 2025.xlsx mis à jour dans le dossier 'Data'.")
+    print("✅ Fichier 2025.xlsx mis à jour dans le dossier 'Données'.")
 except Exception as e:
     print(f"❌ Erreur de téléchargement : {e}") 

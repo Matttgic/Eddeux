@@ -19,7 +19,7 @@ def update_2025_file():
     dest_file = os.path.join(dest_folder, "2025.xlsx")
     os.makedirs(dest_folder, exist_ok=True)
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=30)
         response.raise_for_status()
         with open(dest_file, "wb") as f:
             f.write(response.content)
@@ -47,21 +47,32 @@ seuil = st.slider(
 # Chargement des Elo
 elo_file = "elo_probs.csv"
 
+# Vérification de l'existence du fichier Elo
+if not os.path.exists(elo_file):
+    st.error(f"❌ Fichier {elo_file} introuvable. Lancez d'abord 'python prepare_elo_csv.py'")
+    st.stop()
+
 with st.spinner("Calcul des value bets en cours..."):
-    df = compute_value_bets(elo_file, min_value_threshold=seuil)
+    try:
+        df = compute_value_bets(elo_file, min_value_threshold=seuil)
+    except Exception as e:
+        st.error(f"❌ Erreur lors du calcul : {e}")
+        df = pd.DataFrame()
 
 if df.empty:
     st.warning(f"Aucun value bet détecté avec un seuil de {seuil*100:.1f}%.")
 
     # Mode debug : tout afficher si aucun bet filtré
     st.subheader("🔍 Mode debug : analyse sans seuil")
-    df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
-
-    if not df_debug.empty:
-        df_debug = df_debug.sort_values(by="value", ascending=False)
-        st.dataframe(df_debug, use_container_width=True)
-    else:
-        st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
+    try:
+        df_debug = compute_value_bets(elo_file, min_value_threshold=0.0)
+        if not df_debug.empty:
+            df_debug = df_debug.sort_values(by="value", ascending=False)
+            st.dataframe(df_debug, use_container_width=True)
+        else:
+            st.info("Aucun match n'a pu être analysé (API vide ou noms non matchés).")
+    except Exception as e:
+        st.error(f"❌ Erreur mode debug : {e}")
 else:
     st.success(f"{len(df)} value bet(s) détecté(s) avec un seuil de {seuil*100:.1f}% :")
     df = df.sort_values(by="value", ascending=False)
@@ -75,4 +86,3 @@ else:
         file_name=f"value_bets_{datetime.now().date()}.csv",
         mime="text/csv"
     )
- 

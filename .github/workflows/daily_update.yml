@@ -32,6 +32,6 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          git add Data/2025.xlsx
-          git commit -m "📥 Mise à jour auto 2025.xlsx dans Data/" || echo "Pas de changement à valider"
+          git add Données/2025.xlsx
+          git commit -m "📥 Mise à jour auto 2025.xlsx dans Données/" || echo "Pas de changement à valider"
           git push 

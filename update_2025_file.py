@@ -26,6 +26,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-Maintenant teste le workflow manuellement via GitHub Actions ou lance `python test_debug.py`.

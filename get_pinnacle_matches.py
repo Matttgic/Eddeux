@@ -80,10 +80,11 @@ def fetch_tennis_matches():
     for event in events:
         league = event.get("league_name", "").lower()
         
-        # Filtrage ATP/WTA seulement
+        # Filtrage ATP/WTA (inclut qualifications ATP)
         if not ("atp" in league or "wta" in league):
             continue
-        if "challenger" in league or "125" in league or "double" in league:
+        # Exclut seulement Challenger, ITF et doubles
+        if any(x in league for x in ["challenger", "125", "double", "itf"]):
             continue
 
         player1 = event.get("home", "")

@@ -2,12 +2,18 @@
 
 import requests
 import pandas as pd
+import os
+import json
+from datetime import datetime, timedelta
 
 # 🔧 Clés API Pinnacle
 PINNACLE_HEADERS = {
     "X-RapidAPI-Key": "e1e76b8e3emsh2445ffb97db0128p158afdjsnb3175ce8d916",
     "X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
+
+CACHE_FILE = "api_cache.json"
+CACHE_DURATION = 30  # minutes
 
 # ✅ Convertit un nom complet ("Carlos Alcaraz") en "Alcaraz C."
 def normalize_name_excel_format(full_name: str) -> str:
@@ -18,12 +24,46 @@ def normalize_name_excel_format(full_name: str) -> str:
     last = " ".join(parts[1:])
     return f"{last} {first[0]}."
 
+def load_cache():
+    """Charge le cache s'il existe et est récent"""
+    if not os.path.exists(CACHE_FILE):
+        return None
+    
+    try:
+        with open(CACHE_FILE, 'r') as f:
+            cache = json.load(f)
+        
+        cache_time = datetime.fromisoformat(cache['timestamp'])
+        if datetime.now() - cache_time < timedelta(minutes=CACHE_DURATION):
+            print(f"📦 Utilisation cache ({CACHE_DURATION}min)")
+            return cache['data']
+    except:
+        pass
+    
+    return None
+
+def save_cache(data):
+    """Sauvegarde les données en cache"""
+    cache = {
+        'timestamp': datetime.now().isoformat(),
+        'data': data
+    }
+    with open(CACHE_FILE, 'w') as f:
+        json.dump(cache, f)
+
 # 📥 Récupère les matchs ATP à venir depuis l'API Pinnacle
 def fetch_tennis_matches():
+    # Vérifier le cache d'abord
+    cached_data = load_cache()
+    if cached_data is not None:
+        return pd.DataFrame(cached_data)
+    
+    # Sinon appel API
     url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/markets"
     params = {"sport_id": 2}  # Tennis uniquement
     
     try:
+        print("📡 Appel API Pinnacle...")
         response = requests.get(url, headers=PINNACLE_HEADERS, params=params, timeout=30)
         response.raise_for_status()
         data = response.json()
@@ -81,9 +121,14 @@ def fetch_tennis_matches():
         })
 
     print(f"🎾 {len(matches)} matchs ATP/WTA récupérés")
+    
+    # Sauvegarder en cache
+    if matches:
+        save_cache(matches)
+    
     return pd.DataFrame(matches)
 
 # Test direct
 if __name__ == "__main__":
     df = fetch_tennis_matches()
-    print(df) 
+    print(df)

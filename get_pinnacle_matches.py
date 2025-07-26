@@ -13,7 +13,7 @@ PINNACLE_HEADERS = {
 }
 
 CACHE_FILE = "api_cache.json"
-CACHE_DURATION = 30  # minutes
+CACHE_DURATION = 1  # minutes
 
 # ✅ Convertit un nom complet ("Carlos Alcaraz") en "Alcaraz C."
 def normalize_name_excel_format(full_name: str) -> str:

@@ -80,10 +80,10 @@ def fetch_tennis_matches():
     for event in events:
         league = event.get("league_name", "").lower()
         
-        # Filtrage ATP/WTA (inclut qualifications ATP)
-        if not ("atp" in league or "wta" in league):
+        # Filtrage ATP SEULEMENT (exclut WTA)
+        if not ("atp" in league):
             continue
-        # Exclut seulement Challenger, ITF et doubles
+        # Exclut Challenger, ITF et doubles
         if any(x in league for x in ["challenger", "125", "double", "itf"]):
             continue
 
@@ -121,7 +121,7 @@ def fetch_tennis_matches():
             "starts": start_time
         })
 
-    print(f"🎾 {len(matches)} matchs ATP/WTA récupérés")
+    print(f"🎾 {len(matches)} matchs ATP récupérés")
     
     # Sauvegarder en cache
     if matches:

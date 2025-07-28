@@ -1,5 +1,5 @@
 match,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,start_time,date,strategie,mise_kelly,resultat,profit,capital
 Carballes Baena R. vs Ugo Carabelli C.,Carballes Baena R.,Ugo Carabelli C.,Hard,1537,1503,54.7,49.8,5.0,1.952,ATP Toronto - R1,2025-07-28T14:00:00,2025-07-28,A_seuil_5pct,3.56,,,
-Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1500,1515,47.9,22.6,25.2,4.29,ATP Toronto - R1,2025-07-28T14:00:00,2025-07-28,A_seuil_5pct,16.03,,,
-Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1500,1500,50.0,3.6,46.4,27.56,ATP Toronto - R1,2025-07-28T16:30:00,2025-07-28,A_seuil_5pct,24.06,,,
-Watanuki Y. vs Altmaier D.,Watanuki Y.,Altmaier D.,Hard,1461,1482,47.0,39.6,7.4,2.44,ATP Toronto - R1,2025-07-28T17:00:00,2025-07-28,A_seuil_5pct,5.1,,,
+Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1500,1515,47.9,22.6,25.2,4.29,ATP Toronto - R1,2025-07-28T14:00:00,2025-07-28,A_seuil_5pct,16.03,G,,
+Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1500,1500,50.0,3.6,46.4,27.56,ATP Toronto - R1,2025-07-28T16:30:00,2025-07-28,A_seuil_5pct,24.06,P,,
+Watanuki Y. vs Altmaier D.,Watanuki Y.,Altmaier D.,Hard,1461,1482,47.0,39.6,7.4,2.44,ATP Toronto - R1,2025-07-28T17:00:00,2025-07-28,A_seuil_5pct,5.1,G,,

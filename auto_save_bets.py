@@ -9,7 +9,7 @@ def save_daily_bets():
     
     # Paramètres configurables
     SEUIL_A = 0.05  # 5% pour stratégie A
-    TOP_PERCENT_B = 30  # Top 30% pour stratégie B
+    TOP_PERCENT_B = 20  # Top 20% pour stratégie B
     
     try:
         # Récupère tous les matchs

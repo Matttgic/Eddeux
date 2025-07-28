@@ -1,0 +1,6 @@
+match,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,start_time,date,strategie
+Kopriva V. vs Bu Y.,Kopriva V.,Bu Y.,Hard,1473,1483,48.5,31.4,17.1,3.09,ATP Toronto - R1,2025-07-28T14:00:00,2025-07-28,A_seuil_5pct
+Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1482,1484,49.8,24.5,25.2,3.94,ATP Toronto - R1,2025-07-28T14:00:00,2025-07-28,A_seuil_5pct
+Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1480,1480,50.0,3.5,46.5,28.33,ATP Toronto - R1,2025-07-28T16:30:00,2025-07-28,A_seuil_5pct
+Boyer T. vs Kovacevic A.,Boyer T.,Kovacevic A.,Hard,1517,1475,56.0,27.8,28.2,3.48,ATP Toronto - R1,2025-07-28T19:00:00,2025-07-28,A_seuil_5pct
+Watanuki Y. vs Altmaier D.,Watanuki Y.,Altmaier D.,Hard,1461,1482,47.0,39.2,7.8,2.47,ATP Toronto - R1,2025-07-28T17:00:00,2025-07-28,A_seuil_5pct

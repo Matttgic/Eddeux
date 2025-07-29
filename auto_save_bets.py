@@ -74,9 +74,13 @@ def save_daily_bets():
             return
         
         # Filtrer les matchs d'aujourd'hui/demain seulement
-        df_all['is_today'] = df_all['starts'].apply(is_today_match)
-        df_filtered = df_all[df_all['is_today']].copy()
-        df_filtered = df_filtered.drop('is_today', axis=1)
+        if 'starts' in df_all.columns:
+            df_all['is_today'] = df_all['starts'].apply(is_today_match)
+            df_filtered = df_all[df_all['is_today']].copy()
+            df_filtered = df_filtered.drop('is_today', axis=1)
+        else:
+            df_filtered = df_all.copy()  # Prend tous les matchs si pas de colonne starts
+            print("⚠️ Pas de colonne 'starts', prend tous les matchs")
         
         if df_filtered.empty:
             print("❌ Aucun match aujourd'hui/demain")

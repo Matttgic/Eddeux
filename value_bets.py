@@ -74,7 +74,7 @@ def compute_value_bets(elo_file: str, min_value_threshold: float = 0.05) -> pd.D
                 "value": round(value * 100, 1),
                 "cote_pinnacle": odds1,
                 "tournament": row.get("tournament", ""),
-                "start_time": row.get("starts", "")
+                "starts": row.get("starts", "")  # ✅ CORRECTION : "starts" au lieu de "start_time"
             })
 
     print(f"📈 Résumé : {matches_analyzed} analysés, {matches_with_elo} avec Elo, {len(rows)} value bets")

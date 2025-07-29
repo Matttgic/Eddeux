@@ -1,3 +1,6 @@
+Voici le workflow complet avec automatisation des résultats :
+
+```yaml
 name: Download 2025.xlsx daily
 
 permissions:
@@ -34,10 +37,13 @@ jobs:
       - name: 💾 Sauvegarde value bets quotidiens
         run: python auto_save_bets.py
 
+      - name: 🧮 Calcul automatique profits/capital
+        run: python update_results.py
+
       - name: ✅ Commit updated files
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           git add Données/2025.xlsx elo_probs.csv historique_strategy_A.csv historique_strategy_B.csv
-          git commit -m "📈 Mise à jour auto : 2025.xlsx + elo_probs.csv + value bets quotidiens" || echo "Pas de changement à valider"
+          git commit -m "📈 Mise à jour auto : 2025.xlsx + elo_probs.csv + value bets + calculs profits" || echo "Pas de changement à valider"
           git push

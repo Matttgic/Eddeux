@@ -60,6 +60,26 @@ def is_match_for_today_session(start_time_str):
     except:
         return True  # En cas d'erreur, garde le match
 
+def sort_csv_by_date(filename):
+    """Trie automatiquement le CSV par date après ajout"""
+    try:
+        df = pd.read_csv(filename)
+        
+        if 'starts' in df.columns and len(df) > 1:
+            # Convertir starts en datetime pour tri
+            df['starts_temp'] = df['starts'].fillna('1900-01-01T00:00:00')
+            df['starts_temp'] = pd.to_datetime(df['starts_temp'])
+            
+            # Trier par date
+            df_sorted = df.sort_values('starts_temp')
+            df_sorted = df_sorted.drop('starts_temp', axis=1)
+            
+            # Sauvegarder trié
+            df_sorted.to_csv(filename, index=False)
+            print(f"📅 {filename} trié par date automatiquement")
+    except Exception as e:
+        print(f"⚠️ Erreur tri {filename}: {e}")
+
 def save_daily_bets():
     """Sauvegarde automatique des value bets quotidiens"""
     
@@ -144,7 +164,7 @@ def save_daily_bets():
         print(f"❌ Erreur : {e}")
 
 def append_to_csv(df, filename):
-    """Ajoute les données au CSV existant"""
+    """Ajoute les données au CSV existant et trie par date"""
     if os.path.exists(filename):
         existing = pd.read_csv(filename)
         combined = pd.concat([existing, df], ignore_index=True)
@@ -152,6 +172,9 @@ def append_to_csv(df, filename):
         combined.to_csv(filename, index=False)
     else:
         df.to_csv(filename, index=False)
+    
+    # ✅ TRI AUTOMATIQUE après chaque sauvegarde
+    sort_csv_by_date(filename)
 
 if __name__ == "__main__":
     save_daily_bets()

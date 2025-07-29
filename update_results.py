@@ -7,7 +7,11 @@ def calculate_profits_and_capital(filename, capital_initial=200):
     try:
         df = pd.read_csv(filename)
         
+        # Trouve le dernier capital renseigné, sinon utilise capital_initial
         capital_current = capital_initial
+        for i in range(len(df)):
+            if pd.notna(df.iloc[i]['capital']) and df.iloc[i]['capital'] != '':
+                capital_current = float(df.iloc[i]['capital'])
         
         for i, row in df.iterrows():
             if row['resultat'] in ['G', 'P', 'A'] and (pd.isna(row['profit']) or row['profit'] == ''):

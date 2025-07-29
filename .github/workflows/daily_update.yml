@@ -1,6 +1,3 @@
-Voici le workflow complet avec automatisation des résultats :
-
-```yaml
 name: Download 2025.xlsx daily
 
 permissions:

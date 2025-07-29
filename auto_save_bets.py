@@ -31,34 +31,34 @@ def calculate_kelly_bet(prob_elo, odds, capital, kelly_fraction=0.25, max_percen
     
     return min(kelly_bet, max_bet)
 
-def is_today_match(start_time_str):
-    """Vérifie si le match est aujourd'hui avant 11h heure française"""
+def is_match_for_today_session(start_time_str):
+    """Filtre les matchs pour la session du jour (11h aujourd'hui -> 11h demain)"""
     try:
-        # Parse la date du match
-        match_time = datetime.fromisoformat(start_time_str.replace('Z', '+00:00'))
-        
-        # Convertir en heure française (UTC+1 ou UTC+2)
-        france_tz = timezone(timedelta(hours=2))  # UTC+2 en été
-        match_time_france = match_time.astimezone(france_tz)
-        
-        # Date actuelle en France
-        now_france = datetime.now(france_tz)
-        today_france = now_france.date()
-        
-        # Le match est "d'aujourd'hui" s'il commence:
-        # - Aujourd'hui avant 11h
-        # - Ou demain (car on lance le script à 11h pour les matchs du soir)
-        match_date = match_time_france.date()
-        
-        if match_date == today_france:
-            return True
-        elif match_date == today_france + timedelta(days=1):
-            return True
-        else:
-            return False
+        if not start_time_str or pd.isna(start_time_str):
+            return True  # Garde si pas d'info de temps
             
+        # Parse la date du match
+        match_time = datetime.fromisoformat(str(start_time_str).replace('Z', '+00:00'))
+        
+        # Heure française (UTC+2 en été)
+        france_tz = timezone(timedelta(hours=2))
+        match_time_france = match_time.astimezone(france_tz)
+        now_france = datetime.now(france_tz)
+        
+        # Session = 11h aujourd'hui -> 11h demain
+        session_start = now_france.replace(hour=11, minute=0, second=0, microsecond=0)
+        session_end = session_start + timedelta(days=1)
+        
+        # Si on est avant 11h aujourd'hui, on prend la session d'hier 11h -> aujourd'hui 11h
+        if now_france.hour < 11:
+            session_start = session_start - timedelta(days=1)
+            session_end = session_end - timedelta(days=1)
+        
+        # Le match est dans la session s'il commence entre session_start et session_end
+        return session_start <= match_time_france <= session_end
+        
     except:
-        return True  # En cas d'erreur, on garde le match
+        return True  # En cas d'erreur, garde le match
 
 def save_daily_bets():
     """Sauvegarde automatique des value bets quotidiens"""
@@ -73,17 +73,18 @@ def save_daily_bets():
             print("❌ Aucun match trouvé")
             return
         
-        # Filtrer les matchs d'aujourd'hui/demain seulement
+        # Filtrer les matchs pour la session 11h-11h
         if 'starts' in df_all.columns:
-            df_all['is_today'] = df_all['starts'].apply(is_today_match)
-            df_filtered = df_all[df_all['is_today']].copy()
-            df_filtered = df_filtered.drop('is_today', axis=1)
+            df_all['is_session'] = df_all['starts'].apply(is_match_for_today_session)
+            df_filtered = df_all[df_all['is_session']].copy()
+            df_filtered = df_filtered.drop('is_session', axis=1)
+            print(f"📅 Matchs filtrés pour session 11h-11h: {len(df_filtered)}/{len(df_all)}")
         else:
             df_filtered = df_all.copy()  # Prend tous les matchs si pas de colonne starts
             print("⚠️ Pas de colonne 'starts', prend tous les matchs")
         
         if df_filtered.empty:
-            print("❌ Aucun match aujourd'hui/demain")
+            print("❌ Aucun match dans la session 11h-11h")
             return
             
         date_str = datetime.now().strftime("%Y-%m-%d")

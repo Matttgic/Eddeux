@@ -100,6 +100,46 @@ def load_custom_css():
     </style>
     """, unsafe_allow_html=True)
 
+def validate_api_configuration():
+    """Validate API configuration and show security warnings"""
+    api_key = config.api.pinnacle_api_key
+    
+    if not api_key or api_key == "":
+        st.error("🔑 **API Key Missing!** Please configure your Pinnacle API key in Streamlit secrets.")
+        st.markdown("""
+        **For Streamlit Cloud:**
+        1. Go to app settings → Secrets
+        2. Add: `PINNACLE_API_KEY = "your_api_key_here"`
+        
+        **For Local Development:**
+        1. Copy `.env.example` to `.env`
+        2. Add your real API key to `.env`
+        """)
+        return False
+    
+    if api_key == "YOUR_API_KEY_HERE" or len(api_key) < 20:
+        st.warning("⚠️ **Invalid API Key!** Please use a valid Pinnacle API key.")
+        return False
+    
+    return True
+
+def show_security_status():
+    """Display security status in sidebar"""
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("🔒 Security Status")
+    
+    api_key = config.api.pinnacle_api_key
+    if api_key and len(api_key) > 20 and api_key != "YOUR_API_KEY_HERE":
+        st.sidebar.success("✅ API Key Configured")
+    else:
+        st.sidebar.error("❌ API Key Missing")
+    
+    env_file_secure = not os.path.exists(".env") or "YOUR_API_KEY_HERE" not in open(".env", "r").read()
+    if env_file_secure:
+        st.sidebar.success("✅ Environment Secure")
+    else:
+        st.sidebar.warning("⚠️ Check Environment")
+
 def main():
     """Main application function"""
     load_custom_css()

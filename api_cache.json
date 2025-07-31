@@ -1,0 +1,165 @@
+{
+  "timestamp": "2025-07-31T16:14:08.716291",
+  "data": [
+    {
+      "player1": "Muller A.",
+      "player2": "Rune H.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 4.24,
+      "odds2": 1.268,
+      "start_time": "2025-07-31T23:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Musetti L.",
+      "player2": "Michelsen A.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.568,
+      "odds2": 2.58,
+      "start_time": "2025-07-31T16:30:00",
+      "round_info": null
+    },
+    {
+      "player1": "Khachanov K.",
+      "player2": "Nava E.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.746,
+      "odds2": 2.15,
+      "start_time": "2025-07-31T15:30:00",
+      "round_info": null
+    },
+    {
+      "player1": "Martin Etcheverry T.",
+      "player2": "Cerundolo F.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 2.67,
+      "odds2": 1.54,
+      "start_time": "2025-07-31T17:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Borges N.",
+      "player2": "Ruud C.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 2.58,
+      "odds2": 1.571,
+      "start_time": "2025-07-31T18:30:00",
+      "round_info": null
+    },
+    {
+      "player1": "Medvedev D.",
+      "player2": "Popyrin A.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.263,
+      "odds2": 4.3,
+      "start_time": "2025-08-01T01:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Tien L.",
+      "player2": "Opelka R.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.763,
+      "odds2": 2.19,
+      "start_time": "2025-07-31T21:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Zverev A.",
+      "player2": "Arnaldi M.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.228,
+      "odds2": 4.75,
+      "start_time": "2025-07-31T23:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Rublev A.",
+      "player2": "Sonego L.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.359,
+      "odds2": 3.4,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Nakashima B.",
+      "player2": "Shelton B.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 2.96,
+      "odds2": 1.446,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Tiafoe F.",
+      "player2": "Vukic A.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.442,
+      "odds2": 2.98,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Davidovich Fokina A.",
+      "player2": "Mensik J.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.813,
+      "odds2": 2.09,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Cobolli F.",
+      "player2": "Marozsan F.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 1.909,
+      "odds2": 1.98,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Fils A.",
+      "player2": "Lehecka J.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 2.23,
+      "odds2": 1.719,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "O'Connell C.",
+      "player2": "de Minaur A.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 8.94,
+      "odds2": 1.094,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    },
+    {
+      "player1": "Diallo G.",
+      "player2": "Fritz T.",
+      "tournament": "ATP Toronto - R16",
+      "surface": "Hard",
+      "odds1": 3.66,
+      "odds2": 1.322,
+      "start_time": "2025-08-01T14:00:00",
+      "round_info": null
+    }
+  ]
+}

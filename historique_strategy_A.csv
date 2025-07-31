@@ -1,4 +1,4 @@
-match,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,date,strategie,mise_kelly,resultat,profit,capital,starts
+Imatch,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,date,strategie,mise_kelly,resultat,profit,capital,starts
 Carballes Baena R. vs Ugo Carabelli C.,Carballes Baena R.,Ugo Carabelli C.,Hard,1537,1503,54.7,49.8,5.0,1.952,ATP Toronto - R1,2025-07-28,A_seuil_5pct,3.56,A,0.0,200.0,2025-07-28T14:00:00
 Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1500,1515,47.9,22.6,25.2,4.29,ATP Toronto - R1,2025-07-28,A_seuil_5pct,16.03,G,52.74,252.74,2025-07-28T14:00:00
 Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1500,1500,50.0,3.6,46.4,27.56,ATP Toronto - R1,2025-07-28,A_seuil_5pct,24.06,P,-24.06,228.68,2025-07-28T16:30:00
@@ -24,4 +24,4 @@ Boyer T. vs Mensik J.,Boyer T.,Mensik J.,Hard,1503,1484,52.8,16.1,36.6,6.06,ATP 
 Tiafoe F. vs Watanuki Y.,Tiafoe F.,Watanuki Y.,Hard,1680,1461,77.9,72.0,5.9,1.354,ATP Toronto - R2,2025-07-30,A_seuil_5pct,8.87,G,,,2025-07-30T19:00:00
 Davidovich Fokina A. vs Moutet C.,Davidovich Fokina A.,Moutet C.,Hard,1726,1587,69.0,60.5,8.5,1.606,ATP Toronto - R2,2025-07-30,A_seuil_5pct,10.23,G,,,2025-07-30T20:30:00
 Comesana F. vs De Minaur A.,Comesana F.,De Minaur A.,Hard,1577,1877,15.1,9.5,5.6,10.35,ATP Toronto - R2,2025-07-30,A_seuil_5pct,3.45,P,,,2025-07-30T23:00:00
-Carballes Baena R. vs Fritz T.,Carballes Baena R.,Fritz T.,Hard,1537,1391,69.8,8.7,61.1,11.31,ATP Toronto - R2,2025-07-30,A_seuil_5pct,38.33,,,,2025-07-31T01:00:00
+Carballes Baena R. vs Fritz T.,Carballes Baena R.,Fritz T.,Hard,1537,1391,69.8,8.7,61.1,11.31,ATP Toronto - R2,2025-07-30,A_seuil_5pct,38.33,P,,,2025-07-31T01:00:00

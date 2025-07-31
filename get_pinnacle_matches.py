@@ -6,9 +6,10 @@ import os
 import json
 from datetime import datetime, timedelta
 
-# 🔧 Clés API Pinnacle
+# 🔧 Clés API Pinnacle - SECURED
+import os
 PINNACLE_HEADERS = {
-    "X-RapidAPI-Key": "e1e76b8e3emsh2445ffb97db0128p158afdjsnb3175ce8d916",
+    "X-RapidAPI-Key": os.getenv("PINNACLE_API_KEY", "YOUR_API_KEY_HERE"),
     "X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
 

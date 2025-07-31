@@ -153,8 +153,15 @@ def main():
     # Display header
     UIComponents.display_header()
     
+    # Validate API configuration first
+    if not validate_api_configuration():
+        st.stop()
+    
     # Sidebar controls
     controls = UIComponents.display_sidebar_controls()
+    
+    # Show security status
+    show_security_status()
     
     # Update config with user settings
     config.betting.bankroll = controls["bankroll"]

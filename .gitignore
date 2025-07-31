@@ -1,2 +1,35 @@
 node_modules/
 .env
+.env.local
+.env.production
+
+# Security - Never commit these files
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Application cache and logs
+*.log
+*.pkl
+api_cache.json
+elo_cache.pkl
+bet_history.json
+performance_metrics.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Streamlit
+.streamlit/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -52,7 +52,7 @@ class AppConfig:
     def __post_init__(self):
         if self.api is None:
             self.api = APIConfig(
-                pinnacle_api_key=os.getenv("PINNACLE_API_KEY", "e1e76b8e3emsh2445ffb97db0128p158afdjsnb3175ce8d916"),
+                pinnacle_api_key=os.getenv("PINNACLE_API_KEY", ""),
                 pinnacle_host=os.getenv("PINNACLE_HOST", "pinnacle-odds.p.rapidapi.com"),
                 cache_duration_minutes=int(os.getenv("CACHE_DURATION", "5")),
                 request_timeout=int(os.getenv("REQUEST_TIMEOUT", "30"))

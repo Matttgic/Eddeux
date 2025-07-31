@@ -1,0 +1,56 @@
+[
+  {
+    "timestamp": "2025-07-31T16:15:18.781711",
+    "bet_count": 4,
+    "bets": [
+      {
+        "match": "Khachanov K. vs Nava E.",
+        "tournament": "ATP Toronto - R16",
+        "surface": "Hard",
+        "odds": 1.746,
+        "elo_probability": 0.791135741453623,
+        "market_probability": 0.5518480492813141,
+        "value": 0.23928769217230883,
+        "kelly_size": 50.0,
+        "recommended_stake": 50.0,
+        "confidence": 0.8500000000000001
+      },
+      {
+        "match": "Martin Etcheverry T. vs Cerundolo F.",
+        "tournament": "ATP Toronto - R16",
+        "surface": "Hard",
+        "odds": 2.67,
+        "elo_probability": 0.5974314316015447,
+        "market_probability": 0.3657957244655582,
+        "value": 0.23163570713598647,
+        "kelly_size": 50.0,
+        "recommended_stake": 50.0,
+        "confidence": 0.65
+      },
+      {
+        "match": "Diallo G. vs Fritz T.",
+        "tournament": "ATP Toronto - R16",
+        "surface": "Hard",
+        "odds": 3.66,
+        "elo_probability": 0.41995598884892643,
+        "market_probability": 0.2653552790044159,
+        "value": 0.15460070984451052,
+        "kelly_size": 50.0,
+        "recommended_stake": 50.0,
+        "confidence": 0.65
+      },
+      {
+        "match": "Tiafoe F. vs Vukic A.",
+        "tournament": "ATP Toronto - R16",
+        "surface": "Hard",
+        "odds": 1.442,
+        "elo_probability": 0.7441405774310254,
+        "market_probability": 0.673903211216644,
+        "value": 0.07023736621438137,
+        "kelly_size": 41.31827638887926,
+        "recommended_stake": 41.31827638887926,
+        "confidence": 0.75
+      }
+    ]
+  }
+]

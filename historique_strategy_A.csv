@@ -1,27 +1,30 @@
-Imatch,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,date,strategie,mise_kelly,resultat,profit,capital,starts
-Carballes Baena R. vs Ugo Carabelli C.,Carballes Baena R.,Ugo Carabelli C.,Hard,1537,1503,54.7,49.8,5.0,1.952,ATP Toronto - R1,2025-07-28,A_seuil_5pct,3.56,A,0.0,200.0,2025-07-28T14:00:00
-Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1500,1515,47.9,22.6,25.2,4.29,ATP Toronto - R1,2025-07-28,A_seuil_5pct,16.03,G,52.74,252.74,2025-07-28T14:00:00
-Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1500,1500,50.0,3.6,46.4,27.56,ATP Toronto - R1,2025-07-28,A_seuil_5pct,24.06,P,-24.06,228.68,2025-07-28T16:30:00
-Watanuki Y. vs Altmaier D.,Watanuki Y.,Altmaier D.,Hard,1461,1482,47.0,39.6,7.4,2.44,ATP Toronto - R1,2025-07-28,A_seuil_5pct,5.1,G,7.34,236.02,2025-07-28T17:00:00
-Muller A. vs Kecmanovic M.,Muller A.,Kecmanovic M.,Hard,1500,1470,54.3,36.7,17.7,2.65,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.3,G,21.95,257.97,2025-07-29T16:30:00
-Moutet C. vs Brooksby J.,Moutet C.,Brooksby J.,Hard,1587,1476,65.4,54.0,11.4,1.8,ATP Toronto - R1,2025-07-29,A_seuil_5pct,11.08,G,8.86,266.83,2025-07-29T18:30:00
-Arseneault N. vs Popyrin A.,Arseneault N.,Popyrin A.,Hard,1590,1375,77.5,9.3,68.2,10.51,ATP Toronto - R2,2025-07-29,A_seuil_5pct,37.57,P,-37.57,229.26,2025-07-29T19:00:00
-Munar J. vs Cerundolo F.,Munar J.,Cerundolo F.,Hard,1560,1478,61.5,48.3,13.2,2.01,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.8,P,-13.8,215.46,2025-07-29T20:30:00
-Safiullin R. vs Ruud C.,Safiullin R.,Ruud C.,Hard,1948,1512,92.5,32.5,60.0,2.99,ATP Toronto - R2,2025-07-29,A_seuil_5pct,40.0,P,-40.0,175.46,2025-07-29T21:00:00
-Opelka R. vs Machac T.,Opelka R.,Machac T.,Hard,1684,1558,67.4,41.1,26.2,2.36,ATP Toronto - R2,2025-07-29,A_seuil_5pct,21.71,G,29.53,204.99,2025-07-29T22:30:00
-Schoolkate T. vs Arnaldi M.,Schoolkate T.,Arnaldi M.,Hard,1481,1483,49.7,40.0,9.7,2.43,ATP Toronto - R2,2025-07-29,A_seuil_5pct,7.26,P,-7.26,197.73,2025-07-29T22:30:00
-Shapovalov D. vs Tien L.,Shapovalov D.,Tien L.,Hard,1785,1500,83.8,63.1,20.7,1.54,ATP Toronto - R2,2025-07-29,A_seuil_5pct,26.9,P,-26.9,170.83,2025-07-29T23:00:00
-Zverev A. vs Walton A.,Zverev A.,Walton A.,Hard,1921,1455,93.6,88.6,5.0,1.1,ATP Toronto - R2,2025-07-29,A_seuil_5pct,14.8,G,1.48,172.31,2025-07-30T01:00:00
-McDonald M. vs Lehecka J.,McDonald M.,Lehecka J.,Hard,1493,1494,49.9,28.7,21.1,3.38,ATP Toronto - R2,2025-07-29,A_seuil_5pct,14.42,P,,,2025-07-30T14:00:00
-Marozsan F. vs Auger-Aliassime F.,Marozsan F.,Auger-Aliassime F.,Hard,1500,1500,50.0,34.1,15.9,2.85,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.56,G,,,2025-07-30T14:00:00
-Mannarino A. vs Shelton B.,Mannarino A.,Shelton B.,Hard,1605,1485,66.6,18.2,48.4,5.35,ATP Toronto - R2,2025-07-29,A_seuil_5pct,34.77,P,,,2025-07-30T14:00:00
-Tsitsipas S. vs O'Connell C.,Tsitsipas S.,O'Connell C.,Hard,1767,1476,84.2,70.1,14.1,1.386,ATP Toronto - R2,2025-07-29,A_seuil_5pct,25.53,P,,,2025-07-30T14:00:00
-Bu Y. vs Sonego L.,Bu Y.,Sonego L.,Hard,1498,1455,56.2,46.1,10.1,2.12,ATP Toronto - R2,2025-07-30,A_seuil_5pct,9.8,P,,,2025-07-30T16:30:00
-Vukic A. vs Norrie C.,Vukic A.,Norrie C.,Hard,1450,1499,43.0,33.2,9.8,2.94,ATP Toronto - R2,2025-07-30,A_seuil_5pct,7.81,G,,,2025-07-30T16:30:00
-Diallo G. vs Gigante M.,Diallo G.,Gigante M.,Hard,1835,1500,87.3,74.8,12.5,1.304,ATP Toronto - R2,2025-07-30,A_seuil_5pct,26.09,G,,,2025-07-30T18:30:00
-Nakashima B. vs Quinn E.,Nakashima B.,Quinn E.,Hard,1691,1454,79.6,67.0,12.6,1.458,ATP Toronto - R2,2025-07-30,A_seuil_5pct,20.09,G,,,2025-07-30T18:30:00
-Boyer T. vs Mensik J.,Boyer T.,Mensik J.,Hard,1503,1484,52.8,16.1,36.6,6.06,ATP Toronto - R2,2025-07-30,A_seuil_5pct,24.92,P,,,2025-07-30T18:30:00
-Tiafoe F. vs Watanuki Y.,Tiafoe F.,Watanuki Y.,Hard,1680,1461,77.9,72.0,5.9,1.354,ATP Toronto - R2,2025-07-30,A_seuil_5pct,8.87,G,,,2025-07-30T19:00:00
-Davidovich Fokina A. vs Moutet C.,Davidovich Fokina A.,Moutet C.,Hard,1726,1587,69.0,60.5,8.5,1.606,ATP Toronto - R2,2025-07-30,A_seuil_5pct,10.23,G,,,2025-07-30T20:30:00
-Comesana F. vs De Minaur A.,Comesana F.,De Minaur A.,Hard,1577,1877,15.1,9.5,5.6,10.35,ATP Toronto - R2,2025-07-30,A_seuil_5pct,3.45,P,,,2025-07-30T23:00:00
-Carballes Baena R. vs Fritz T.,Carballes Baena R.,Fritz T.,Hard,1537,1391,69.8,8.7,61.1,11.31,ATP Toronto - R2,2025-07-30,A_seuil_5pct,38.33,P,,,2025-07-31T01:00:00
+Imatch,player1,player2,surface,elo1,elo2,prob_elo,prob_cotes,value,cote_pinnacle,tournament,date,strategie,mise_kelly,resultat,profit,capital,starts,match
+Carballes Baena R. vs Ugo Carabelli C.,Carballes Baena R.,Ugo Carabelli C.,Hard,1537,1503,54.7,49.8,5.0,1.952,ATP Toronto - R1,2025-07-28,A_seuil_5pct,3.56,A,0.0,200.0,2025-07-28T14:00:00,
+Schoolkate T. vs Fonseca J.,Schoolkate T.,Fonseca J.,Hard,1500,1515,47.9,22.6,25.2,4.29,ATP Toronto - R1,2025-07-28,A_seuil_5pct,16.03,G,52.74,252.74,2025-07-28T14:00:00,
+Martin D. vs Munar J.,Martin D.,Munar J.,Hard,1500,1500,50.0,3.6,46.4,27.56,ATP Toronto - R1,2025-07-28,A_seuil_5pct,24.06,P,-24.06,228.68,2025-07-28T16:30:00,
+Watanuki Y. vs Altmaier D.,Watanuki Y.,Altmaier D.,Hard,1461,1482,47.0,39.6,7.4,2.44,ATP Toronto - R1,2025-07-28,A_seuil_5pct,5.1,G,7.34,236.02,2025-07-28T17:00:00,
+Muller A. vs Kecmanovic M.,Muller A.,Kecmanovic M.,Hard,1500,1470,54.3,36.7,17.7,2.65,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.3,G,21.95,257.97,2025-07-29T16:30:00,
+Moutet C. vs Brooksby J.,Moutet C.,Brooksby J.,Hard,1587,1476,65.4,54.0,11.4,1.8,ATP Toronto - R1,2025-07-29,A_seuil_5pct,11.08,G,8.86,266.83,2025-07-29T18:30:00,
+Arseneault N. vs Popyrin A.,Arseneault N.,Popyrin A.,Hard,1590,1375,77.5,9.3,68.2,10.51,ATP Toronto - R2,2025-07-29,A_seuil_5pct,37.57,P,-37.57,229.26,2025-07-29T19:00:00,
+Munar J. vs Cerundolo F.,Munar J.,Cerundolo F.,Hard,1560,1478,61.5,48.3,13.2,2.01,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.8,P,-13.8,215.46,2025-07-29T20:30:00,
+Safiullin R. vs Ruud C.,Safiullin R.,Ruud C.,Hard,1948,1512,92.5,32.5,60.0,2.99,ATP Toronto - R2,2025-07-29,A_seuil_5pct,40.0,P,-40.0,175.46,2025-07-29T21:00:00,
+Opelka R. vs Machac T.,Opelka R.,Machac T.,Hard,1684,1558,67.4,41.1,26.2,2.36,ATP Toronto - R2,2025-07-29,A_seuil_5pct,21.71,G,29.53,204.99,2025-07-29T22:30:00,
+Schoolkate T. vs Arnaldi M.,Schoolkate T.,Arnaldi M.,Hard,1481,1483,49.7,40.0,9.7,2.43,ATP Toronto - R2,2025-07-29,A_seuil_5pct,7.26,P,-7.26,197.73,2025-07-29T22:30:00,
+Shapovalov D. vs Tien L.,Shapovalov D.,Tien L.,Hard,1785,1500,83.8,63.1,20.7,1.54,ATP Toronto - R2,2025-07-29,A_seuil_5pct,26.9,P,-26.9,170.83,2025-07-29T23:00:00,
+Zverev A. vs Walton A.,Zverev A.,Walton A.,Hard,1921,1455,93.6,88.6,5.0,1.1,ATP Toronto - R2,2025-07-29,A_seuil_5pct,14.8,G,1.48,172.31,2025-07-30T01:00:00,
+Tsitsipas S. vs O'Connell C.,Tsitsipas S.,O'Connell C.,Hard,1767,1476,84.2,70.1,14.1,1.386,ATP Toronto - R2,2025-07-29,A_seuil_5pct,25.53,P,-25.53,146.78,2025-07-30T14:00:00,
+Mannarino A. vs Shelton B.,Mannarino A.,Shelton B.,Hard,1605,1485,66.6,18.2,48.4,5.35,ATP Toronto - R2,2025-07-29,A_seuil_5pct,34.77,P,-34.77,112.01,2025-07-30T14:00:00,
+Marozsan F. vs Auger-Aliassime F.,Marozsan F.,Auger-Aliassime F.,Hard,1500,1500,50.0,34.1,15.9,2.85,ATP Toronto - R2,2025-07-29,A_seuil_5pct,13.56,G,25.09,137.1,2025-07-30T14:00:00,
+McDonald M. vs Lehecka J.,McDonald M.,Lehecka J.,Hard,1493,1494,49.9,28.7,21.1,3.38,ATP Toronto - R2,2025-07-29,A_seuil_5pct,14.42,P,-14.42,122.68,2025-07-30T14:00:00,
+Bu Y. vs Sonego L.,Bu Y.,Sonego L.,Hard,1498,1455,56.2,46.1,10.1,2.12,ATP Toronto - R2,2025-07-30,A_seuil_5pct,9.8,P,-9.8,112.88,2025-07-30T16:30:00,
+Vukic A. vs Norrie C.,Vukic A.,Norrie C.,Hard,1450,1499,43.0,33.2,9.8,2.94,ATP Toronto - R2,2025-07-30,A_seuil_5pct,7.81,G,15.15,128.03,2025-07-30T16:30:00,
+Diallo G. vs Gigante M.,Diallo G.,Gigante M.,Hard,1835,1500,87.3,74.8,12.5,1.304,ATP Toronto - R2,2025-07-30,A_seuil_5pct,26.09,G,7.93,135.96,2025-07-30T18:30:00,
+Nakashima B. vs Quinn E.,Nakashima B.,Quinn E.,Hard,1691,1454,79.6,67.0,12.6,1.458,ATP Toronto - R2,2025-07-30,A_seuil_5pct,20.09,G,9.2,145.16,2025-07-30T18:30:00,
+Boyer T. vs Mensik J.,Boyer T.,Mensik J.,Hard,1503,1484,52.8,16.1,36.6,6.06,ATP Toronto - R2,2025-07-30,A_seuil_5pct,24.92,P,-24.92,120.24,2025-07-30T18:30:00,
+Tiafoe F. vs Watanuki Y.,Tiafoe F.,Watanuki Y.,Hard,1680,1461,77.9,72.0,5.9,1.354,ATP Toronto - R2,2025-07-30,A_seuil_5pct,8.87,G,3.14,123.38,2025-07-30T19:00:00,
+Davidovich Fokina A. vs Moutet C.,Davidovich Fokina A.,Moutet C.,Hard,1726,1587,69.0,60.5,8.5,1.606,ATP Toronto - R2,2025-07-30,A_seuil_5pct,10.23,G,6.2,129.58,2025-07-30T20:30:00,
+Comesana F. vs De Minaur A.,Comesana F.,De Minaur A.,Hard,1577,1877,15.1,9.5,5.6,10.35,ATP Toronto - R2,2025-07-30,A_seuil_5pct,3.45,P,-3.45,126.13,2025-07-30T23:00:00,
+Carballes Baena R. vs Fritz T.,Carballes Baena R.,Fritz T.,Hard,1537,1391,69.8,8.7,61.1,11.31,ATP Toronto - R2,2025-07-30,A_seuil_5pct,38.33,P,-38.33,87.8,2025-07-31T01:00:00,
+,Khachanov K.,Nava E.,Hard,1733,1460,82.8,75.9,6.9,1.286,ATP Toronto - R16,2025-07-31,A_seuil_5pct,9.76,,,,2025-07-31T15:00:00,Khachanov K. vs Nava E.
+,Borges N.,Ruud C.,Hard,1483,1500,47.6,36.0,11.6,2.71,ATP Toronto - R16,2025-07-31,A_seuil_5pct,7.3,,,,2025-07-31T18:30:00,Borges N. vs Ruud C.
+,Muller A.,Rune H.,Hard,1466,1500,45.2,22.1,23.0,4.41,ATP Toronto - R16,2025-07-31,A_seuil_5pct,12.55,,,,2025-07-31T23:00:00,Muller A. vs Rune H.

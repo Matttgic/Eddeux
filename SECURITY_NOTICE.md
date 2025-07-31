@@ -2,7 +2,7 @@
 
 ## ⚠️ IMPORTANT: Your API key was exposed in the code!
 
-The API key `e1e76b8e3emsh2445ffb97db0128p158afdjsnb3175ce8d916` was hardcoded in the source files. 
+The API key `6` was hardcoded in the source files. 
 
 **IMMEDIATE ACTIONS REQUIRED:**
 
